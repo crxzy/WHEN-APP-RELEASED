@@ -1,0 +1,91 @@
+-- ---
+-- Globals
+-- ---
+
+-- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+-- SET FOREIGN_KEY_CHECKS=0;
+
+-- ---
+-- Table 'project'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `project`;
+		
+CREATE TABLE `project` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `desc` VARCHAR(200) NULL DEFAULT NULL,
+  `name` VARCHAR(100) NOT NULL DEFAULT 'NULL',
+  `bundleID` VARCHAR(100) NULL DEFAULT NULL,
+  `package_name` VARCHAR(100) NULL DEFAULT NULL,
+  `cron` MEDIUMTEXT NOT NULL DEFAULT 'NULL',
+  `extra` VARCHAR(100) NULL DEFAULT NULL,
+  `create_at` DATETIME NULL DEFAULT NULL,
+  `update_at` DATETIME NULL DEFAULT NULL,
+  `status` INTEGER NOT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'channel'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `channel`;
+		
+CREATE TABLE `channel` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `desc` VARCHAR(200) NULL DEFAULT NULL,
+  `name` VARCHAR(100) NOT NULL DEFAULT 'NULL',
+  `url` VARCHAR(100) NOT NULL DEFAULT 'NULL',
+  `author` VARCHAR(100) NULL DEFAULT NULL,
+  `project_id` INTEGER NULL DEFAULT NULL,
+  `create_at` DATETIME NOT NULL DEFAULT 'NULL',
+  `update_at` DATETIME NULL DEFAULT NULL,
+  `status` INTEGER NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Table 'project_channel'
+-- 
+-- ---
+
+DROP TABLE IF EXISTS `project_channel`;
+		
+CREATE TABLE `project_channel` (
+  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
+  `project_id` INTEGER NOT NULL DEFAULT NULL,
+  `channel_id` INTEGER NOT NULL DEFAULT NULL,
+  `current_version` VARCHAR(100) NULL DEFAULT NULL,
+  `create_at` DATETIME NULL DEFAULT NULL,
+  `update_at` DATETIME NULL DEFAULT NULL,
+  `status` INTEGER NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- ---
+-- Foreign Keys 
+-- ---
+
+ALTER TABLE `project_channel` ADD FOREIGN KEY (project_id) REFERENCES `project` (`id`);
+ALTER TABLE `project_channel` ADD FOREIGN KEY (channel_id) REFERENCES `channel` (`id`);
+
+-- ---
+-- Table Properties
+-- ---
+
+-- ALTER TABLE `project` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `channel` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+-- ALTER TABLE `project_channel` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ---
+-- Test Data
+-- ---
+
+-- INSERT INTO `project` (`id`,`desc`,`name`,`bundleID`,`package_name`,`cron`,`extra`,`create_at`,`update_at`,`status`) VALUES
+-- ('','','','','','','','','','');
+-- INSERT INTO `channel` (`id`,`desc`,`name`,`url`,`author`,`project_id`,`create_at`,`update_at`,`status`) VALUES
+-- ('','','','','','','','','');
+-- INSERT INTO `project_channel` (`id`,`project_id`,`channel_id`,`current_version`,`create_at`,`update_at`,`status`) VALUES
+-- ('','','','','','','');

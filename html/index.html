@@ -1,0 +1,310 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+        <script src="https://cdn.staticfile.org/axios/0.18.0/axios.min.js"></script>
+
+        <!-- 新 Bootstrap 核心 CSS 文件 -->
+        <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        
+        <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <div id="app">
+          <div class="alert alert-success">
+              <a href="#" class="alert-link">项目</a>
+          </div>
+            <div>
+                <table class="table table-bordered">
+                    <caption>项目</caption>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>BundleID</th>
+                        <th>PackageName</th>
+                        <th>Cron</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="project in projects">
+                        <td>{{project.ID}}</td>
+                        <td>{{project.Name}}</td>
+                        <td>{{project.Desc}}</td>
+                        <td>{{project.BundleID}}</td>
+                        <td>{{project.PackageName}}</td>
+                        <td>{{project.Cron}}</td>
+                        <td>update <a @click="delProject(project.ID)">delete</a>  <a @click="getDetail(project.ID)">查看</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+         
+
+        
+          <div class="form-horizontal" role="form">
+            <div class="form-group">
+              <label for="firstname" class="col-sm-2 control-label">项目名字</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="firstname" v-model="proreq.Name" placeholder="请输入名字">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname" class="col-sm-2 control-label">描述</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="lastname" v-model="proreq.Desc" placeholder="请输入姓">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname" class="col-sm-2 control-label">bundleid</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="lastname" v-model="proreq.BundleID" placeholder="请输入姓">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname" class="col-sm-2 control-label">PackageName</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="lastname" v-model="proreq.PackageName" placeholder="请输入姓">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname" class="col-sm-2 control-label">cron</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="lastname" v-model="proreq.Cron" placeholder="请输入姓">
+              </div>
+            </div>
+              <div class="col-sm-offset-2 col-sm-10">
+                <button v-on:click="addProject" class="btn btn-default">添加</button>
+              </div>
+            </div>
+
+            
+            <div class="alert alert-success">
+              <a href="#" class="alert-link">渠道</a>
+          </div>
+            <div>
+              <table class="table table-bordered">
+                  <caption>渠道</caption>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>名称</th>
+                      <th>描述</th>
+                      <th>URL</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="channel in channels">
+                      <td>{{channel.ID}}</td>
+                      <td>{{channel.Name}}</td>
+                      <td>{{channel.Desc}}</td>
+                      <td>{{channel.URL}}</td>
+                      <td>update delete</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+            <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">渠道名字</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="firstname" v-model="chanreq.Name" placeholder="请输入名字">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">描述</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="lastname" v-model="chanreq.Desc" placeholder="请输入姓">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">URL</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="lastname" v-model="chanreq.URL" placeholder="请输入姓">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">Author</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="lastname" v-model="chanreq.Author" placeholder="请输入姓">
+                </div>
+              </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button v-on:click="addChannel" class="btn btn-default">添加</button>
+                </div>
+              </div>
+
+              <div class="alert alert-success">
+                <a href="#" class="alert-link">添加渠道检测</a>
+            </div>
+
+            <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">项目ID</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="firstname" v-model="conn.ProjectID" placeholder="请输入名字">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="lastname" class="col-sm-2 control-label">渠道ID</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="lastname" v-model="conn.ChannelID" placeholder="请输入姓">
+                </div>
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button v-on:click="addConnect" class="btn btn-default">添加</button>
+                </div>
+              </div>
+
+
+
+      </div>
+    </body>
+
+
+    <script>
+        var host = "http://10.250.170.127:62211"
+        var app = new Vue({
+            el: '#app',
+            data: {
+                projects: [],
+                proreq: {
+                  Name: "hello",
+                  Desc: "",
+                  BundleID: "",
+                  PackageName: "",
+                  Cron: "",
+                },
+                channels: [],
+                chanreq: {
+                  Name: "apple store",
+                  Desc: "",
+                  URL: "",
+                  Author: ""
+                },
+                conn: {
+                  ProjectID: 0,
+                  ChannelID: 0
+                },
+                server: host
+            },
+            mounted: function () {
+                this.getProjects();
+                this.getChannel();
+            },
+            methods: {
+                getProjects: function () {
+                    axios
+                        .get(host + '/v1/project')
+                        .then(response => (this.projects = response.data.data))
+                        .catch(function (error) { // 请求失败处理
+                            console.log(error);
+                        });
+                },
+                addProject: function() {
+                  axios
+                  .post(host + '/v1/project', JSON.stringify(app.proreq), {headers: {'Content-Type': 'application/json'}})
+                  .then(response => {
+                    if (response.data.status != 200) {
+                       alert(response.data.msg)
+                    } else {
+                      app.getProjects()
+                    }
+                  })
+                  .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                  });
+                },
+                getChannel: function() {
+                  axios
+                        .get(host + '/v1/channel')
+                        .then(response => (this.channels = response.data.data))
+                        .catch(function (error) { // 请求失败处理
+                            console.log(error);
+                        });
+                },
+                addChannel: function() {
+                  axios
+                  .post(host + '/v1/channel', JSON.stringify(app.chanreq), {headers: {'Content-Type': 'application/json'}})
+                  .then(response => {
+                    if (response.data.status != 200) {
+                       alert(response.data.msg)
+                    } else {
+                      app.getChannel()
+                    }
+                  })
+                  .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                  });
+                },
+                getDetail: function(id) {
+                  
+                  axios
+                        .get(host + '/v1/project/' + id)
+                        .then(response => {
+                          if (response.data.status != 200) {
+                            alert(response.data.msg)
+                          } else {
+                            str = ""
+                            resp = response.data.data.channels
+                            for(c in resp) {
+                                channel = resp[c]
+                                console.log(channel)
+                                str += "currentVersion:" + channel.CurrentVersion + "\n"
+                                str += "ReleaseTime:" + channel.ReleaseTime + "\n"
+                            }
+
+                            alert(str)
+                          }
+                        })
+                        .catch(function (error) { // 请求失败处理
+                            console.log(error);
+                        });                        
+                },
+                addConnect: function() {
+                  app.conn.ProjectID = Number(app.conn.ProjectID)
+                  app.conn.ChannelID = Number(app.conn.ChannelID)
+                  axios
+                  .post(host + '/v1/connect', JSON.stringify(app.conn), {headers: {'Content-Type': 'application/json'}})
+                  .then(response => {
+                    if (response.data.status != 200) {
+                       alert(response.data.msg)
+                    } else {
+                      alert("ok")
+                    }
+                  })
+                  .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                  });
+                },
+                delProject: function(id) {
+                  axios
+                  .delete(host + '/v1/project/' + id, JSON.stringify(app.conn), {headers: {'Content-Type': 'application/json'}})
+                  .then(response => {
+                    if (response.data.status != 200) {
+                       alert(response.data.msg)
+                    } else {
+                      app.getProjects()
+                    }
+                  })
+                  .catch(function (error) { // 请求失败处理
+                    console.log(error);
+                  });
+                }
+            }
+        })
+    </script>
+</html>
